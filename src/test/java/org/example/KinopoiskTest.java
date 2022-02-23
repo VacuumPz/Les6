@@ -21,14 +21,12 @@ public class KinopoiskTest extends AbstractTest{
     @Tag("Positive")
     public void top250Test() {
         new MainPageLinks(getDriver()).goToFilms();
-        getDriver().findElement(By.xpath(".//span[contains(text(), '250 лучших фильмов')]")).click();
-        getDriver().findElement(By.xpath(".//span[contains(text(), 'Все годы')]")).click();
+        new MainPageLinks(getDriver()).goToTop250();
+        new MainPageLinks(getDriver()).goToAllYear();
 
-        WebDriverWait ulWait = new WebDriverWait(getDriver(), 5);
-        ulWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//div[@class='selections-select__dropdown-wrapper']")));
-        getDriver().findElement(By.linkText("2021")).click();
+        new MainPageLinks(getDriver()).goToTop250Year();
 
-        Assertions.assertEquals("Человек-паук: Нет пути домой", getDriver().findElement(By.xpath(".//a[@href = '/film/1309570/']/p[1]")).getText()); //Лучший фильм года
+        Assertions.assertEquals("Человек-паук: Нет пути домой", getDriver().findElement(By.xpath(".//span[text() = 'Человек-паук: Нет пути домой']")).getText()); //Лучший фильм года
     }
 
     @Test
@@ -36,7 +34,7 @@ public class KinopoiskTest extends AbstractTest{
     public void searchTest() {
 
         new Search(getDriver()).setSearch("Куда приводят мечты");
-        getDriver().findElement(By.xpath(".//a[contains(text(), 'Куда приводят мечты')]")).click();
+        new MainPageLinks(getDriver()).goToFindByName();
 
         Assertions.assertEquals("Куда приводят мечты (1998)", getDriver().findElement(By.xpath(".//h1/span")).getText()); //Сверяем название фильма
     }
@@ -46,7 +44,7 @@ public class KinopoiskTest extends AbstractTest{
     public void lastNewsTest() {
         new MainPageLinks(getDriver()).goToMedia();
         new MainPageLinks(getDriver()).goToNews();
-        getDriver().findElement(By.xpath(".//div[@class = 'posts-grid__main-section']/div/div[1]/div/div/a")).click(); //открываем первую новость в списке
+        new MainPageLinks(getDriver()).goToLastNews(); //открываем первую новость в списке
 
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,14 +56,9 @@ public class KinopoiskTest extends AbstractTest{
     @Test
     @Tag("Positive")
     public void boxCheckTest() {
-        getDriver().findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
-
-
-        getDriver().findElement(By.xpath(".//a[@href = '/box/']")).click();
-
-        getDriver().findElement(By.xpath(".//select[@name='year']")).click();
-        getDriver().findElement(By.xpath(".//option[@value='2021']")).click();
-        getDriver().findElement(By.xpath(".//a[starts-with(@onclick, 'document.form_box_year.submit')]")).click();
+        new MainPageLinks(getDriver()).goToBox();
+        new MainPageLinks(getDriver()).goToYear();
+        new MainPageLinks(getDriver()).goToSubDates();
 
         Assertions.assertEquals("2021 год", getDriver().findElement(By.xpath(".//h1/span[2]")).getText()); //Сверяем год статистики кассовых сборов
 
@@ -86,12 +79,10 @@ public class KinopoiskTest extends AbstractTest{
     @Tag("Positive")
     public void watchTheaterTrailerTest() {
         new MainPageLinks(getDriver()).goToWatch();
-        getDriver().findElement(By.xpath(".//button[starts-with(@class, 'HeaderContent__search-button')]")).click();
-        getDriver().findElement(By.xpath(".//input[@type = 'search']")).sendKeys("Французский вестник");
-        WebDriverWait ulWait = new WebDriverWait(getDriver(), 30);
-        ulWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//p[text() = 'Французский вестник. Приложение к газете «Либерти. Канзас ивнинг сан»']")));
-        getDriver().findElement(By.xpath(".//div[starts-with(@class, 'SuggestList__content')]/div/a")).click();
-        getDriver().findElement(By.xpath(".//button[@name = 'Trailer']")).click();
+        new MainPageLinks(getDriver()).goToSearchTrailer();
+        new MainPageLinks(getDriver()).setSearchText("Французский вестник");
+        new MainPageLinks(getDriver()).goToSugSearch();
+        new MainPageLinks(getDriver()).goToTrailer();
 
         Assertions.assertEquals("Французский вестник. Приложение к газете «Либерти. Канзас ивнинг …", getDriver().findElement(By.xpath(".//h1/span")).getText()); //Сверяем год статистики кассовых сборов
 

@@ -3,7 +3,6 @@ package org.example;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 public class SignIn extends AbstractPage{
@@ -30,14 +29,4 @@ public class SignIn extends AbstractPage{
         return this;
     }
 
-
-//    public void loginIn(String login, String password){
-//
-//        Actions loginIn = new Actions(getDriver());
-//        loginIn
-//                .sendKeys(this.login, login)
-//                .sendKeys(this.password, password)
-//                .build()
-//                .perform();
-//    }
 }
